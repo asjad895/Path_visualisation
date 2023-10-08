@@ -206,29 +206,45 @@ canvas.pack(expand=True)
 
 # Draw the initial grid
 draw_grid(canvas)
-# Define a function to handle algorithm selection
 def algorithm_selected(algorithm):
     print(f"Selected Algorithm: {algorithm}")
 
+def display_algorithm_info():
+    algorithm = selected_algorithm.get()
+    algorithm_info.config(text=f"Algorithm: {algorithm}\nOptimal: Yes\nAlways Shortest Path: No")
 
-# Define a list of search algorithms
-search_algorithms = ["Algorithm 1", "Algorithm 2", "Algorithm 3", "Algorithm 4"]
+# Create a frame for the left side of the window
+left_frame = tk.Frame(root, padx=10, pady=10)
+left_frame.pack(side=tk.LEFT, fill=tk.BOTH)
 
+selection_label = tk.Label(left_frame, text="Algorithm Selection", font=("Arial", 14))
+selection_label.pack(pady=10)
+
+
+# Label to display algorithm information
+algorithm_info = tk.Label(left_frame, text="", font=("Arial", 12))
+algorithm_info.pack()
+
+search_algorithms = ["Breadth first search", "Depth first search", "Dijkstra Algorithm", "Best first search","A* Search Algorithm"]
 # Create a Tkinter StringVar to store the selected algorithm
 selected_algorithm = tk.StringVar()
 selected_algorithm.set(search_algorithms[0])  # Set the default algorithm
 
 # Create an OptionMenu widget for selecting the algorithm
 algorithm_menu = tk.OptionMenu(nav_bar, selected_algorithm, *search_algorithms)
-algorithm_menu.pack(padx=20, pady=20)
+algorithm_menu.pack(padx=10)
 
 # Create a button to trigger the selection
-select_button = tk.Button(root, text="Select", command=lambda: algorithm_selected(selected_algorithm.get()))
+select_button = tk.Button(root, text="Select",command=lambda: algorithm_selected(selected_algorithm.get()),background='Steel Blue1', font=("Arial",12))
 select_button.pack()
+# Create a button to display algorithm information
+algo_info_button = tk.Button(left_frame, text="Display Algorithm Info", command=display_algorithm_info)
+algo_info_button.pack()
 # Bind events to set start and end points and toggle obstacles
 canvas.bind("<Button-1>", set_start_point)
 canvas.bind("<Button-3>", set_end_point)
 canvas.bind("<B1-Motion>", toggle_obstacle)
+
 
 # Main loop
 root.mainloop()
